@@ -1,0 +1,156 @@
+doctype html
+html(lang='en')
+
+    head
+
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+        meta(name='description', content='')
+        meta(name='author', content='Armin Hohenegger')
+
+        title Armin Hohenegger Resume
+
+        link(rel='icon', type='image/x-icon', href='assets/img/favicon.ico')
+
+        // Font Awesome icons (free version)
+        script(src='https://use.fontawesome.com/releases/v6.1.0/js/all.js', crossorigin='anonymous')
+
+        // Google fonts
+        link(href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono:500,700', rel='stylesheet', type='text/css')
+        link(href='https://fonts.googleapis.com/css?family=IBM+Plex+Sans:500,700', rel='stylesheet', type='text/css')
+
+        // Core theme CSS (includes Bootstrap)
+        link(href='css/styles.css', rel='stylesheet')
+
+    body#page-top
+
+        // Navigation
+        nav#sideNav.navbar.navbar-expand-lg.navbar-dark.bg-primary.fixed-top
+            a.navbar-brand.js-scroll-trigger(href='#page-top')
+                span.d-block.d-lg-none #{resume.basics.name}
+                span.d-none.d-lg-block
+                    img.img-fluid.img-profile.rounded-circle.mx-auto.mb-2(src='assets/img/profile.jpg', alt='...')
+            button.navbar-toggler(type='button', data-bs-toggle='collapse', data-bs-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+                span.navbar-toggler-icon
+            #navbarResponsive.collapse.navbar-collapse
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link.js-scroll-trigger(href='#about') About
+                    li.nav-item
+                        a.nav-link.js-scroll-trigger(href='#experience') Experience
+                    li.nav-item
+                        a.nav-link.js-scroll-trigger(href='#education') Education
+                    li.nav-item
+                        a.nav-link.js-scroll-trigger(href='#skills') Skills
+                    li.nav-item
+                        a.nav-link.js-scroll-trigger(href='#interests') Interests
+
+        // Page Content
+        .container-fluid.p-0
+
+            // About
+            - var b = resume.basics
+            section#about.resume-section
+                .resume-section-content
+                    h1.title.mb-4
+                        | #{b.name}
+                    .subheading
+                        i.bi-house
+                        | #{b.location.city} #{b.location.countryCode}
+                    .subheading
+                        i.bi-telephone
+                        | #{b.phone}
+                    .subheading.mb-5
+                        i.bi-envelope
+                        a(href='mailto:' + b.email) #{b.email}
+                    p.lead.mb-5
+                        | #{b.summary}
+                    .social-icons
+                        a.social-icon(href=b.profiles.filter(n => n.network == "Github")[0].url)
+                            i.fab.fa-github
+
+            hr.m-0
+
+            -
+                const reformatDate = (dateString => {
+                    const date = new Date(dateString)
+                    const month = new Intl.DateTimeFormat("en-US", { month: "long" }).format(date);
+                    return month + ' ' + date.getFullYear()
+                });
+
+            // Experience
+            section#experience.resume-section
+               .resume-section-content
+                    h2.mb-5 Experience
+                    each job in resume.work
+                        .d-flex.flex-column.flex-md-row.justify-content-between.mb-5
+                            .flex-grow-1
+                                h3.mb-1 #{job.position}
+                                .subheading.mb-4
+                                    a(href=job.website) #{job.company}
+                                p
+                                    | #{job.summary}
+                                p Highlights:
+                                ul
+                                    each highlight in job.highlights
+                                        li #{highlight}
+                            .flex-shrink-0
+                                span.text-primary
+                                    | #{reformatDate(job.startDate)} - #{job.endDate ? reformatDate(job.endDate) : 'Present'}
+
+            hr.m-0
+
+            // Education
+            section#education.resume-section
+                .resume-section-content
+                    h2.mb-5 Education
+
+                    each education in resume.education
+                        .d-flex.flex-column.flex-md-row.justify-content-between.mb-5
+                            .flex-grow-1
+                                h3.mb-0 #{education.institution}
+                                .subheading.mb-3 #{education.studyType}
+                                div #{education.area}
+                                p Average Grade: #{education.gpa}
+                            .flex-shrink-0
+                                span.text-primary
+                                    | #{reformatDate(education.startDate)} - #{education.endDate ? reformatDate(education.endDate) : 'Present'}
+
+            hr.m-0
+
+            // Skills
+            section#skills.resume-section
+                .resume-section-content
+                    h2.mb-5 Skills
+                    each topic in resume.skills
+                        .subheading.mb-3 #{topic.name}
+                        ul.list-inline
+                            each keyword in topic.keywords
+                                li.list-inline-item
+                                    p #{keyword}
+                    .subheading.mb-3 Languages
+                    ul
+                        each language in resume.languages
+                            li
+                                p #{language.language} (#{language.fluency})
+
+
+            hr.m-0
+
+            // Interests
+            section#interests.resume-section
+                .resume-section-content
+                    h2.mb-5 Interests
+                    p
+                        | Being outdoors in nature allows me to recharge my energy and creativity. In summertime I mostly explore the mountains and forests by foot, while in winter I enjoy cross-country skiing.
+                    p
+                        | In order to keep both body and mind balanced I practice Yoga and Meditation, including participation in a local zen group.
+                    p.mb-0
+                        | Also I am an avid home cook and enjoy a good book with a cup of tea.
+            hr.m-0
+
+        // Bootstrap core JS
+        script(src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js')
+
+        // Core theme JS
+        script(src='js/scripts.js')

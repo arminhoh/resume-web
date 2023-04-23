@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+.editorconfig
+.firebase/*
+.idea/*
+dist/index.html
+dist/assets/*
+dist/css/*
+dist/js/*
